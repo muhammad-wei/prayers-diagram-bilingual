@@ -2,6 +2,8 @@
 
 A single-file, bilingual (English / 中文) diagram of the five daily prayers: the raka'ah count of each fard prayer, the Sunnah (Rawatib) prayed before and after, and the times when voluntary prayer is prohibited.
 
+**Live page:** <https://muhammad-wei.github.io/prayers-diagram-bilingual/>
+
 ![Dark timeline showing Fajr, Dhuhr, Asr, Maghrib and Isha with their Sunnah prayers](preview.png)
 
 ## What it shows
