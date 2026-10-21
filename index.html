@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Prayers &amp; Sunnah · 每日礼拜与圣行</title>
+<meta name="description" content="A bilingual diagram of the five daily prayers, the Sunnah (Rawatib) prayed before and after them, and the times when voluntary prayer is prohibited.">
+<meta name="theme-color" content="#080B0F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Lato:wght@300;400;700&amp;family=Noto+Serif+SC:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --darker: #080B0F;
+    --border: rgba(201, 168, 76, 0.25);
+    --text: #E8DCC8;
+    --muted: #7A8A9A;
+    --sunnah-before: #2A5C45;
+    --sunnah-after: #1E3D6B;
+    --no-prayer: #2A1A1A;
+    --font-sans: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-serif: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+    --font-cn: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+    color-scheme: dark;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--darker);
+    font-family: var(--font-sans);
+    color: var(--text);
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 20% 20%, rgba(201, 168, 76, 0.04) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 80%, rgba(30, 61, 107, 0.08) 0%, transparent 60%);
+  }
+
+  header {
+    text-align: center;
+    padding: 48px 24px 28px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  header::before {
+    content: '☽';
+    font-size: 18px;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+    letter-spacing: 8px;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 4.5vw, 38px);
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  h1 .cn {
+    font-family: var(--font-cn);
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: var(--gold);
+    display: block;
+    letter-spacing: 4px;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .subtitle .cn-sub {
+    font-family: var(--font-cn);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    display: inline;
+  }
+
+  .cn-text {
+    font-family: var(--font-cn);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  /* Legend */
+  .legend {
+    max-width: 900px;
+    margin: 24px auto 28px;
+    padding: 0 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item .cn-text { display: inline; font-size: 10px; color: var(--muted); margin-top: 0; }
+
+  .legend-dot,
+  .legend-ring {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-ring { border: 2px solid var(--gold); }
+
+  /* Timeline */
+  .timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    bottom: 64px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 8%, var(--gold) 92%, transparent);
+    transform: translateX(-50%);
+    opacity: 0.3;
+  }
+
+  .prayer-block {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+    grid-template-areas:
+      "head   center ."
+      "before center after";
+    column-gap: 10px;
+    row-gap: 8px;
+    align-items: start;
+    margin-bottom: 46px;
+  }
+
+  .prayer-head {
+    grid-area: head;
+    text-align: right;
+    padding-right: 6px;
+  }
+
+  .prayer-name {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1.3;
+    margin-bottom: 1px;
+  }
+
+  .prayer-name-cn {
+    font-family: var(--font-cn);
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 2px;
+  }
+
+  .prayer-period {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+  }
+
+  .prayer-center {
+    grid-area: center;
+    justify-self: center;
+    align-self: start;
+    text-align: center;
+  }
+
+  .dot {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: var(--darker);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold-light);
+    box-shadow: 0 0 16px rgba(201, 168, 76, 0.2);
+  }
+
+  .dot-label {
+    width: fit-content;
+    margin: 5px auto 0;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: var(--darker);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  .dot-label .cn-text { font-size: 10px; color: var(--muted); margin-top: 0; display: block; }
+
+  .before-cards { grid-area: before; text-align: right; }
+  .after-cards  { grid-area: after;  text-align: left; }
+
+  .card {
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border: 1px solid;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .card:last-child { margin-bottom: 0; }
+
+  .card-before {
+    background: var(--sunnah-before);
+    border-color: rgba(80, 180, 120, 0.35);
+    color: #A8D8BC;
+  }
+
+  .card-after {
+    background: var(--sunnah-after);
+    border-color: rgba(80, 130, 200, 0.35);
+    color: #A8C4E8;
+  }
+
+  .card-restricted {
+    background: var(--no-prayer);
+    border-color: rgba(180, 60, 60, 0.3);
+    color: #D4908A;
+  }
+
+  .card-optional {
+    background: rgba(60, 50, 20, 0.6);
+    border-color: rgba(201, 168, 76, 0.2);
+    color: #C0A870;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-bottom: 4px;
+  }
+
+  .badge-before   { background: rgba(80, 180, 120, 0.2);  color: #6FD4A0; border: 1px solid rgba(80, 180, 120, 0.4); }
+  .badge-after    { background: rgba(80, 130, 200, 0.2);  color: #80B4F0; border: 1px solid rgba(80, 130, 200, 0.4); }
+  .badge-restrict { background: rgba(180, 60, 60, 0.2);   color: #E08080; border: 1px solid rgba(180, 60, 60, 0.35); }
+  .badge-optional { background: rgba(201, 168, 76, 0.15); color: var(--gold); border: 1px solid rgba(201, 168, 76, 0.3); }
+
+  .card .en-line { display: block; }
+  .card .cn-line {
+    display: block;
+    font-family: var(--font-cn);
+    font-size: 11px;
+    margin-top: 3px;
+  }
+
+  /* Footer note */
+  .note-box {
+    max-width: 900px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+  }
+
+  .note-card {
+    background: rgba(150, 100, 200, 0.08);
+    border: 1px solid rgba(150, 100, 200, 0.25);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 12.5px;
+    color: #C0A0F0;
+    line-height: 1.7;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .note-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .note-cn {
+    font-family: var(--font-cn);
+    font-size: 11px;
+    color: #A080D8;
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Entrance animation — opt-in only, so content is never hidden when it cannot run */
+  @media (prefers-reduced-motion: no-preference) {
+    .prayer-block { animation: fadeUp 0.5s ease both; }
+    .prayer-block:nth-child(1) { animation-delay: 0.1s; }
+    .prayer-block:nth-child(2) { animation-delay: 0.2s; }
+    .prayer-block:nth-child(3) { animation-delay: 0.3s; }
+    .prayer-block:nth-child(4) { animation-delay: 0.4s; }
+    .prayer-block:nth-child(5) { animation-delay: 0.5s; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media print {
+    .prayer-block { animation: none !important; opacity: 1 !important; transform: none !important; }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .timeline { padding: 32px 20px 56px; }
+    .timeline::before { left: 42px; top: 32px; bottom: 56px; }
+
+    .prayer-block {
+      grid-template-columns: 44px minmax(0, 1fr);
+      grid-template-areas:
+        "center head"
+        "center before"
+        "center after";
+      column-gap: 6px;
+      row-gap: 8px;
+      margin-bottom: 38px;
+    }
+
+    .dot { width: 38px; height: 38px; font-size: 12px; }
+
+    .prayer-head,
+    .before-cards,
+    .after-cards {
+      text-align: left;
+      padding-left: 8px;
+      padding-right: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Daily Prayers &amp; Sunnah <span class="cn" lang="zh-CN">每日礼拜与圣行</span></h1>
+  <p class="subtitle">The Five Obligatory Prayers &amp; the Sunnah Prayers &nbsp;·&nbsp; <span class="cn-sub" lang="zh-CN">五番主命拜与圣行拜</span></p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-ring" aria-hidden="true"></span> Fard · <span class="cn-text" lang="zh-CN">主命拜</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:#2A5C45" aria-hidden="true"></span> Sunnah before · <span class="cn-text" lang="zh-CN">拜前圣行</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:#1E3D6B" aria-hidden="true"></span> Sunnah after · <span class="cn-text" lang="zh-CN">拜后圣行</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:rgba(60,50,20,0.9)" aria-hidden="true"></span> Voluntary · <span class="cn-text" lang="zh-CN">自愿礼</span></div>
+  <div class="legend-item"><span class="legend-dot" style="background:#2A1A1A" aria-hidden="true"></span> No prayer · <span class="cn-text" lang="zh-CN">禁止礼拜</span></div>
+</div>
+
+<main class="timeline">
+
+  <!-- FAJR -->
+  <section class="prayer-block">
+    <div class="prayer-head">
+      <h2 class="prayer-name">Fajr · <span lang="ar" dir="rtl">فجر</span></h2>
+      <p class="prayer-name-cn" lang="zh-CN">晨礼</p>
+      <p class="prayer-period">Dawn → Sunrise · 拂晓至日出</p>
+    </div>
+    <div class="prayer-center">
+      <div class="dot">2</div>
+      <div class="dot-label">Raka'ah<span class="cn-text" lang="zh-CN">拜数</span></div>
+    </div>
+    <div class="before-cards">
+      <div class="card card-before">
+        <span class="badge badge-before">Sunnah Before · 拜前圣行</span>
+        <span class="en-line">2 Raka'ah Sunnah before the prayer</span>
+        <span class="cn-line" lang="zh-CN">礼拜前礼2拜圣行</span>
+      </div>
+    </div>
+    <div class="after-cards">
+      <div class="card card-restricted">
+        <span class="badge badge-restrict">No Prayer · 禁止礼拜</span>
+        <span class="en-line">No voluntary prayer after Fajr until sunrise</span>
+        <span class="cn-line" lang="zh-CN">晨礼后至日出前不可礼副功拜</span>
+      </div>
+      <div class="card card-optional">
+        <span class="badge badge-optional">If Missed · 若错过</span>
+        <span class="en-line">The 2 Sunnah of Fajr may be made up later</span>
+        <span class="cn-line" lang="zh-CN">错过的2拜圣行可以补礼</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DHUHR -->
+  <section class="prayer-block">
+    <div class="prayer-head">
+      <h2 class="prayer-name">Dhuhr · <span lang="ar" dir="rtl">ظهر</span></h2>
+      <p class="prayer-name-cn" lang="zh-CN">晌礼</p>
+      <p class="prayer-period">After Noon → Asr · 过午至晡礼</p>
+    </div>
+    <div class="prayer-center">
+      <div class="dot">4</div>
+      <div class="dot-label">Raka'ah<span class="cn-text" lang="zh-CN">拜数</span></div>
+    </div>
+    <div class="before-cards">
+      <div class="card card-before">
+        <span class="badge badge-before">Sunnah Before · 拜前圣行</span>
+        <span class="en-line">4 Raka'ah Sunnah before the prayer</span>
+        <span class="cn-line" lang="zh-CN">礼拜前礼4拜圣行</span>
+      </div>
+    </div>
+    <div class="after-cards">
+      <div class="card card-after">
+        <span class="badge badge-after">Sunnah After · 拜后圣行</span>
+        <span class="en-line">2 Raka'ah Sunnah after the prayer</span>
+        <span class="cn-line" lang="zh-CN">礼拜后礼2拜圣行</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASR -->
+  <section class="prayer-block">
+    <div class="prayer-head">
+      <h2 class="prayer-name">Asr · <span lang="ar" dir="rtl">عصر</span></h2>
+      <p class="prayer-name-cn" lang="zh-CN">晡礼</p>
+      <p class="prayer-period">Afternoon → Sunset · 午后至日落</p>
+    </div>
+    <div class="prayer-center">
+      <div class="dot">4</div>
+      <div class="dot-label">Raka'ah<span class="cn-text" lang="zh-CN">拜数</span></div>
+    </div>
+    <div class="before-cards">
+      <div class="card card-optional">
+        <span class="badge badge-optional">Voluntary · 自愿礼</span>
+        <span class="en-line">4 Raka'ah may be prayed before (not an emphasized Sunnah)</span>
+        <span class="cn-line" lang="zh-CN">晡礼前可礼4拜（非强调圣行）</span>
+      </div>
+    </div>
+    <div class="after-cards">
+      <div class="card card-restricted">
+        <span class="badge badge-restrict">No Prayer · 禁止礼拜</span>
+        <span class="en-line">No voluntary prayer after Asr until sunset</span>
+        <span class="cn-line" lang="zh-CN">晡礼后至日落前不可礼副功拜</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAGHRIB -->
+  <section class="prayer-block">
+    <div class="prayer-head">
+      <h2 class="prayer-name">Maghrib · <span lang="ar" dir="rtl">مغرب</span></h2>
+      <p class="prayer-name-cn" lang="zh-CN">昏礼</p>
+      <p class="prayer-period">Sunset → Isha · 日落至宵礼</p>
+    </div>
+    <div class="prayer-center">
+      <div class="dot">3</div>
+      <div class="dot-label">Raka'ah<span class="cn-text" lang="zh-CN">拜数</span></div>
+    </div>
+    <div class="before-cards">
+      <div class="card card-optional">
+        <span class="badge badge-optional">Voluntary · 自愿礼</span>
+        <span class="en-line">2 Raka'ah may be prayed before (not an emphasized Sunnah)</span>
+        <span class="cn-line" lang="zh-CN">昏礼前可礼2拜（非强调圣行）</span>
+      </div>
+    </div>
+    <div class="after-cards">
+      <div class="card card-after">
+        <span class="badge badge-after">Sunnah After · 拜后圣行</span>
+        <span class="en-line">2 Raka'ah Sunnah after the prayer</span>
+        <span class="cn-line" lang="zh-CN">礼拜后礼2拜圣行</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ISHA -->
+  <section class="prayer-block">
+    <div class="prayer-head">
+      <h2 class="prayer-name">Isha · <span lang="ar" dir="rtl">عشاء</span></h2>
+      <p class="prayer-name-cn" lang="zh-CN">宵礼</p>
+      <p class="prayer-period">Night → Midnight · 夜间至午夜</p>
+    </div>
+    <div class="prayer-center">
+      <div class="dot">4</div>
+      <div class="dot-label">Raka'ah<span class="cn-text" lang="zh-CN">拜数</span></div>
+    </div>
+    <div class="before-cards">
+      <div class="card card-optional">
+        <span class="badge badge-optional">Note · 说明</span>
+        <span class="en-line">No emphasized Sunnah before Isha</span>
+        <span class="cn-line" lang="zh-CN">宵礼前无强调圣行</span>
+      </div>
+    </div>
+    <div class="after-cards">
+      <div class="card card-after">
+        <span class="badge badge-after">Sunnah After · 拜后圣行</span>
+        <span class="en-line">2 Raka'ah Sunnah after the prayer</span>
+        <span class="cn-line" lang="zh-CN">礼拜后礼2拜圣行</span>
+      </div>
+      <div class="card card-after">
+        <span class="badge badge-after">Witr · 维特尔拜</span>
+        <span class="en-line">1 or 3 Raka'ah — the last prayer of the night</span>
+        <span class="cn-line" lang="zh-CN">1或3拜，为夜间最后一拜</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="note-box">
+  <div class="note-card" role="note">
+    <span class="note-icon" aria-hidden="true">🌙</span>
+    <div>
+      <strong>Note · 说明</strong><br>
+      Rawatib counts and details vary slightly between schools of law. This diagram uses the widely cited arrangement; prayer times shift with location and season.
+      <span class="note-cn" lang="zh-CN">圣行拜的拜数与细则各教法学派略有差异；本图采用常见传述。礼拜时间因地点与季节而异。</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
